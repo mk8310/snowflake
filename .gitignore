@@ -101,3 +101,4 @@ CTestTestfile.cmake
 .idea/*
 cmake-build-debug/*
 .DS_Store
+output/snowflake
