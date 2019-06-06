@@ -1,0 +1,6 @@
+This is the snowflake id generator.
+You must install libevent befor you make it.
+And the libevent is best installed in one of the "/usr/local /opt /opt/local /usr/local/libevent /usr/local/Cellar". If not, you must add the libevent path to CMake/FindLibEvent.cmake.
+
+This program will open port 9999, if you need to change this port, you need to recompile.
+I will add a command line and configuration file in the next version to set this port.
