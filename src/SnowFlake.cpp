@@ -29,18 +29,16 @@ void SnowFlake::int2BinaryString(unsigned long num, char *s, int len) {
     if (len < 2) {
     } else if (0 == num) {
     } else {
-        *(s + len--) = '\0';
+        *(s + --len) = '\0';
         while (num != 0) {
             int bit = num & 1;
             num = num >> 1;
-            *(s + len) = (char) ('0' + bit);
-            len--;
+            *(s + --len) = (char) ('0' + bit);
         }
 //        for (; len > 0; len--) {
 //            *(s + len) = (char) ('0' + (num % 2));
 //            num /= 2;
 //        }
-        len = len + 1;
     }
 }
 
@@ -72,28 +70,28 @@ long SnowFlake::Next() {
 }
 
 long SnowFlake::generateId() {
+    char strSnowFlake[SNOWFLAKE_LENGTH + 1];
+    clearCharArray(strSnowFlake, SNOWFLAKE_LENGTH);
+    strSnowFlake[0] = '0';
+
     char strTimestamp[TS_LENGTH + 1];
     initCharArray(strTimestamp, TS_LENGTH);
     int2BinaryString((unsigned long) timestamp, strTimestamp, TS_LENGTH);
+    strcat(strSnowFlake, strTimestamp);
 
     char strDataCenterId[DS_LENGTH + 1];
     initCharArray(strDataCenterId, DS_LENGTH);
     int2BinaryString((unsigned long) dataCenterId, strDataCenterId, DS_LENGTH);
+    strcat(strSnowFlake, strDataCenterId);
 
     char strMachineId[MC_LENGTH + 1];
     initCharArray(strMachineId, MC_LENGTH);
     int2BinaryString((unsigned long) machineId, strMachineId, MC_LENGTH);
+    strcat(strSnowFlake, strMachineId);
 
     char strSequenceId[SQ_LENGTH + 1];
     initCharArray(strSequenceId, SQ_LENGTH);
     int2BinaryString((unsigned long) sequenceId, strSequenceId, SQ_LENGTH);
-
-    char strSnowFlake[SNOWFLAKE_LENGTH + 1];
-    clearCharArray(strSnowFlake, SNOWFLAKE_LENGTH);
-    strSnowFlake[0] = '0';
-    strcat(strSnowFlake, strTimestamp);
-    strcat(strSnowFlake, strDataCenterId);
-    strcat(strSnowFlake, strMachineId);
     strcat(strSnowFlake, strSequenceId);
 
     long snowflakeNumber = strtol(strSnowFlake, nullptr, 2);
